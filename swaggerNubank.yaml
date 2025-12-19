@@ -1,0 +1,149 @@
+openapi: 3.0.1
+info:
+  title: API Desafio Nubank
+  description: API que maneja a presistência dos clientes e seus contatos em banco de dados
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+  description: Host local para testes
+paths:
+  /clientes:
+    get:
+      summary: Retorna todos os clientes com seus contatos
+      responses:
+        "200":
+          description: sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayClienteResponseDTO"
+    post:
+      summary: cadastra um cliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClienteRequestDTO"
+      responses:
+        "201":
+          description: cliente cadastrado
+        "500":
+          description: dados invalidos ou repetidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErro"
+  /clientes/{id}/contatos:
+    get:
+      summary: Retorna os contatos de um único cliente
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArrayContatoResponseDTO"
+        "404":
+          description: Cliente não encontrado
+          content:
+            application/json:
+              example: Not Found
+  /contatos:
+    post:
+      summary: Cadastra um novo contato
+      description: Um novo contatos sera cadastrado somente se o cliente com o ID informado existir no banco de dados
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContatoRequestDTO"
+      responses:
+        "201":
+          description: sucesso
+        "500":
+          description: dados invalidos ou cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErro"
+components:
+  schemas:
+    ClienteResponseDTO:
+      type: object
+      properties:
+        contatos:
+          type: array
+          items:
+            $ref: "#/components/schemas/ClienteResponseDTO_contatos"
+        telefone:
+          type: string
+        nome:
+          type: string
+    ClienteRequestDTO:
+      type: object
+      properties:
+        localidade:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+    ContatoResponseDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        nome:
+          type: string
+    ContatoRequestDTO:
+      type: object
+      properties:
+        telefone:
+          type: string
+        email:
+          type: string
+        nome:
+          type: string
+        cpf:
+          type: string
+        id:
+          type: integer
+    ArrayClienteResponseDTO:
+      type: array
+      items:
+        $ref: "#/components/schemas/ClienteResponseDTO"
+    ArrayContatoResponseDTO:
+      type: array
+      items:
+        $ref: "#/components/schemas/ContatoResponseDTO"
+    InternalServerErro:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        status:
+          type: integer
+          example: 500
+        erro:
+          type: string
+          example: internal server erro
+        path:
+          type: string
+          example: "/{caminho requisitado}"
+    ClienteResponseDTO_contatos:
+      type: object
+      properties:
+        email:
+          type: string
+        nome:
+          type: string
