@@ -10,5 +10,5 @@ API desenvolvida em Java com Spring boot para a gestão de clientes e seus conta
 
 # Documentação iterativa
 
-Para acessar a documentação Swagger copie e cole o link no navegador:
+Para acessar a documentação Swagger acesse o link:
 "https://petstore.swagger.io/?url=https://raw.githubusercontent.com/allan-thro/Desafio-BackEnd-Nubank/refs/heads/main/swaggerNubank.yaml"
