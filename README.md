@@ -3,7 +3,7 @@
 API desenvolvida em Java com Spring boot para a gestão de clientes e seus contatos no banco de dados
 
 # Tecnologias
-- Java 20
+- Java 21
 - Spring boot
 - PostgreSQL
 - Swagger
